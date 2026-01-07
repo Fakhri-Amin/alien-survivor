@@ -3,6 +3,11 @@ using Unity.Mathematics;
 using Unity.Physics;
 using UnityEngine;
 
+public struct InitializeCharacterFlag : IComponentData, IEnableableComponent
+{
+
+}
+
 public struct CharacterMoveDirection : IComponentData
 {
     public float2 Value;
@@ -22,11 +27,25 @@ public class CharacterAuthoring : MonoBehaviour
         public override void Bake(CharacterAuthoring authoring)
         {
             var entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent<InitializeCharacterFlag>(entity);
             AddComponent<CharacterMoveDirection>(entity);
             AddComponent(entity, new CharacterMoveSpeed()
             {
                 Value = authoring.MoveSpeed
             });
+        }
+    }
+}
+
+[UpdateInGroup(typeof(InitializationSystemGroup))]
+public partial struct CharacterInitializationSystem : ISystem
+{
+    public void OnUpdate(ref SystemState state)
+    {
+        foreach (var (mass, shouldInitialized) in SystemAPI.Query<RefRW<PhysicsMass>, EnabledRefRW<InitializeCharacterFlag>>())
+        {
+            mass.ValueRW.InverseInertia = float3.zero;
+            shouldInitialized.ValueRW = false;
         }
     }
 }
