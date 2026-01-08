@@ -1,12 +1,11 @@
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
+using Unity.Rendering;
 using UnityEngine;
 
-public struct InitializeCharacterFlag : IComponentData, IEnableableComponent
-{
-
-}
+public struct InitializeCharacterFlag : IComponentData, IEnableableComponent { }
 
 public struct CharacterMoveDirection : IComponentData
 {
@@ -14,6 +13,12 @@ public struct CharacterMoveDirection : IComponentData
 }
 
 public struct CharacterMoveSpeed : IComponentData
+{
+    public float Value;
+}
+
+[MaterialProperty("_FacingDirection")]
+public struct FacingDirectionOverride : IComponentData
 {
     public float Value;
 }
@@ -33,6 +38,10 @@ public class CharacterAuthoring : MonoBehaviour
             {
                 Value = authoring.MoveSpeed
             });
+            AddComponent(entity, new FacingDirectionOverride()
+            {
+                Value = 1
+            });
         }
     }
 }
@@ -40,6 +49,7 @@ public class CharacterAuthoring : MonoBehaviour
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public partial struct CharacterInitializationSystem : ISystem
 {
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         foreach (var (mass, shouldInitialized) in SystemAPI.Query<RefRW<PhysicsMass>, EnabledRefRW<InitializeCharacterFlag>>())
@@ -52,12 +62,40 @@ public partial struct CharacterInitializationSystem : ISystem
 
 public partial struct CharacterMoveSystem : ISystem
 {
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var (velocity, direction, speed) in SystemAPI.Query<RefRW<PhysicsVelocity>, CharacterMoveDirection, CharacterMoveSpeed>())
+        foreach (var (velocity, facingDirection, direction, speed, entity) in SystemAPI.Query<RefRW<PhysicsVelocity>, RefRW<FacingDirectionOverride>, CharacterMoveDirection, CharacterMoveSpeed>().WithEntityAccess())
         {
             var moveStep2d = speed.Value * direction.Value;
             velocity.ValueRW.Linear = new float3(moveStep2d, 0f);
+
+            if (math.abs(moveStep2d.x) > 0.15f)
+            {
+                facingDirection.ValueRW.Value = math.sign(moveStep2d.x);
+            }
+
+            if (SystemAPI.HasComponent<PlayerTag>(entity))
+            {
+                var animationOverride = SystemAPI.GetComponentRW<AnimationIndexOverride>(entity);
+                var animationType = math.lengthsq(moveStep2d) > float.Epsilon ? PlayerAnimationIndex.Movement : PlayerAnimationIndex.Idle;
+                animationOverride.ValueRW.Value = (float)animationType;
+            }
         }
+    }
+}
+
+public partial struct GlobalTimeUpdateSystem : ISystem
+{
+    private static int _globalTimePropertyID;
+
+    public void OnCreate(ref SystemState state)
+    {
+        _globalTimePropertyID = Shader.PropertyToID("_GlobalTime");
+    }
+
+    public void OnUpdate(ref SystemState state)
+    {
+        Shader.SetGlobalFloat(_globalTimePropertyID, (float)SystemAPI.Time.ElapsedTime);
     }
 }
