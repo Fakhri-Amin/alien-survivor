@@ -803,6 +803,9 @@ GameObject:
   - component: {fileID: 1303400693}
   - component: {fileID: 1303400692}
   - component: {fileID: 1303400691}
+  - component: {fileID: 1303400697}
+  - component: {fileID: 1303400696}
+  - component: {fileID: 1303400695}
   m_Layer: 7
   m_Name: Alien
   m_TagString: Untagged
@@ -826,7 +829,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.33278936, y: 0.79642344, z: 0.15}
@@ -903,6 +906,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1303400695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303400690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52e681a301377f44b6ddec88b4bd9c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAuthoring
+  AttackDamage: 5
+  CooldownTime: 0.5
+--- !u!114 &1303400696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303400690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc337e4567bb9541b9a74b1cff98d39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAuthoring
+  MoveSpeed: 3
+  HitPoints: 10
+--- !u!54 &1303400697
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303400690}
+  serializedVersion: 5
+  m_Mass: 10
+  m_LinearDamping: Infinity
+  m_AngularDamping: Infinity
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 2
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1496014613
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,6 +1220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAuthoring
   MoveSpeed: 4.2
+  HitPoints: 100
 --- !u!54 &2074248119
 Rigidbody:
   m_ObjectHideFlags: 0
