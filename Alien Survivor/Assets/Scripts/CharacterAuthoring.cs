@@ -67,6 +67,8 @@ public class CharacterAuthoring : MonoBehaviour
                 Value = authoring.HitPoints
             });
             AddBuffer<DamageThisFrame>(entity);
+            AddComponent<DestroyEntityFlag>(entity);
+            SetComponentEnabled<DestroyEntityFlag>(entity, false);
         }
     }
 }
@@ -130,7 +132,7 @@ public partial struct ProcessDamageThisFrameSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var (hitPoints, damageThisFrame) in SystemAPI.Query<RefRW<CharacterCurrentHitPoints>, DynamicBuffer<DamageThisFrame>>())
+        foreach (var (hitPoints, damageThisFrame, entity) in SystemAPI.Query<RefRW<CharacterCurrentHitPoints>, DynamicBuffer<DamageThisFrame>>().WithPresent<DestroyEntityFlag>().WithEntityAccess())
         {
             if (damageThisFrame.IsEmpty) continue;
 
@@ -140,6 +142,11 @@ public partial struct ProcessDamageThisFrameSystem : ISystem
             }
 
             damageThisFrame.Clear();
+
+            if (hitPoints.ValueRO.Value <= 0)
+            {
+                SystemAPI.SetComponentEnabled<DestroyEntityFlag>(entity, true);
+            }
 
         }
     }
