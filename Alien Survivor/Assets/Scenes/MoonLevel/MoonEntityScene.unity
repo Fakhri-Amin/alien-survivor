@@ -1335,7 +1335,7 @@ Transform:
   m_GameObject: {fileID: 2074248117}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.29, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1353,6 +1353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1f0a08c7bdf494aae2030a2988bc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAuthoring
+  AttackPrefab: {fileID: 285522627084350429, guid: 0c42861dc8724ed42b6f7aab3ce359b3, type: 3}
+  CooldownTime: 1
+  DetectionSize: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
