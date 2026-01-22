@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8008108426536195747}
   - component: {fileID: 785435181992644304}
   - component: {fileID: 233323082082374993}
+  - component: {fileID: 6315905110608934574}
   m_Layer: 10
   m_Name: Gem
   m_TagString: Untagged
@@ -112,3 +113,15 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.4062876
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6315905110608934574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798314758706381900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78db4fd5f9dd1aa448298d6d4184fcca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GemAuthoring
