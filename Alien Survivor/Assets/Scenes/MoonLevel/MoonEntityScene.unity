@@ -1234,6 +1234,7 @@ MonoBehaviour:
   AttackPrefab: {fileID: 285522627084350429, guid: 0c42861dc8724ed42b6f7aab3ce359b3, type: 3}
   CooldownTime: 0.2
   DetectionSize: 10
+  WorldUIPrefab: {fileID: 6848332979229617546, guid: 1b8519ce5d7dc6e48bb4d207983180ca, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
