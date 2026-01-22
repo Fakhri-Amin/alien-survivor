@@ -170,3 +170,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAuthoring
   AttackDamage: 5
   CooldownTime: 0.5
+  GemPrefab: {fileID: 1798314758706381900, guid: 46a94d327811c824897e9e710ac9be2c, type: 3}
